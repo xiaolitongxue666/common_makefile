@@ -46,9 +46,9 @@ else
 TARGET		= TargetLib.a
 TARGET_EXECULABLE_FILE	= ExecutableFile
 
-INCLUDES	= -I$(MK_ROOT)
-INCLUDES	+= -I$(MK_ROOT)/B_function
-INCLUDES	+= -I$(MK_ROOT)/C_function
+INCLUDES	= -I $(MK_ROOT)
+INCLUDES	+= -I $(MK_ROOT)/B_function
+INCLUDES	+= -I $(MK_ROOT)/C_function
 
 # Add you own lib header files
 # INCLUDES	+= -I$(MK_ROOT)/../../../../../workspace/include
