@@ -1,10 +1,9 @@
 #include <stdio.h>
-#include "funciton.h"
-#include "sub_1_function.h"
-#include "sub_2_function.h"
+#include "A_function.h"
+#include "B_function.h"
+#include "C_function.h"
 
-/*int lib_main(void) */
-int main(void) 
+int main(void)
 {
     printf("Hello, World!\n");
 
