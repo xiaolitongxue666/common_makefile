@@ -1,8 +1,8 @@
 #---------------------------------------------------------
 # Define compilation platform commands
 #---------------------------------------------------------
-#CC 			= $(PREFIX)gcc
-CC 			= $(PREFIX)gcc-9
+CC 			= $(PREFIX)gcc
+#CC 			= $(PREFIX)gcc-9
 AR 			= $(PREFIX)ar
 STRIP 		= $(PREFIX)strip
 
@@ -122,7 +122,7 @@ $(TARGET_EXECULABLE_FILE):$(OBJS)
 	@echo Build $@ Use $(OBJS)
 	$(CC) $^ -o $@ $(LIBS) $(LDFLAGS)
 
-%o : %c
+%.o : %.c
 	@echo $@ Compiling $(notdir $<)... 
 	$(CC) -c $(INCLUDES) $(CFLAGS) $< -o $@
 	
