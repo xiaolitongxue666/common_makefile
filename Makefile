@@ -1,8 +1,8 @@
 #---------------------------------------------------------
 # Define compilation platform commands
 #---------------------------------------------------------
-#CC 			= $(PREFIX)gcc
-CC 			= $(PREFIX)gcc-9
+CC 			= $(PREFIX)gcc
+#CC 			= $(PREFIX)gcc-9
 AR 			= $(PREFIX)ar
 STRIP 		= $(PREFIX)strip
 
@@ -57,6 +57,7 @@ INCLUDES	+= -I $(MK_ROOT)/C_function
 CFLAGS		=
 CFLAGS		+=  -Wall
 CFLAGS		+=  -g
+#CFLAGS		+=  -H
 
 # Add you lib files
 #LIBS		= -L $(MK_ROOT)/../workspace/lib
@@ -122,8 +123,9 @@ $(TARGET_EXECULABLE_FILE):$(OBJS)
 	@echo Build $@ Use $(OBJS)
 	$(CC) $^ -o $@ $(LIBS) $(LDFLAGS)
 
-%o : %c
-	@echo $@ Compiling $(notdir $<)... 
+#%o : %c
+lib_api_or_main.o : lib_api_or_main.c
+	@echo $@ Compiling $(notdir $<)...
 	$(CC) -c $(INCLUDES) $(CFLAGS) $< -o $@
 	
 endif
