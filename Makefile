@@ -123,9 +123,14 @@ $(TARGET_EXECULABLE_FILE):$(OBJS)
 	@echo Build $@ Use $(OBJS)
 	$(CC) $^ -o $@ $(LIBS) $(LDFLAGS)
 
+<<<<<<< HEAD
 #%o : %c
 lib_api_or_main.o : lib_api_or_main.c
 	@echo $@ Compiling $(notdir $<)...
+=======
+%.o : %.c
+	@echo $@ Compiling $(notdir $<)... 
+>>>>>>> bb3e12361fa46a0ebba41edd7f15a0662a5e75db
 	$(CC) -c $(INCLUDES) $(CFLAGS) $< -o $@
 	
 endif
