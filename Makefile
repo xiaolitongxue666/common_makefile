@@ -57,6 +57,9 @@ INCLUDES	+= -I $(MK_ROOT)/C_function
 CFLAGS		=
 CFLAGS		+=  -Wall
 CFLAGS		+=  -g
+#Use C99
+#CFLAGS		+=  --std=gnu99
+
 
 # Add you lib files
 #LIBS		= -L $(MK_ROOT)/../workspace/lib
