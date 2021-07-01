@@ -60,6 +60,7 @@ CFLAGS		+=  -g
 #Use C99
 #CFLAGS		+=  --std=gnu99
 
+#CFLAGS		+=  -H
 
 # Add you lib files
 #LIBS		= -L $(MK_ROOT)/../workspace/lib
@@ -125,9 +126,10 @@ $(TARGET_EXECULABLE_FILE):$(OBJS)
 	@echo Build $@ Use $(OBJS)
 	$(CC) $^ -o $@ $(LIBS) $(LDFLAGS)
 
-%.o : %.c
+-include *.d 
+%.o : %.c 
 	@echo $@ Compiling $(notdir $<)... 
-	$(CC) -c $(INCLUDES) $(CFLAGS) $< -o $@
+	$(CC) -c -MMD $(INCLUDES) $(CFLAGS) $< -o $@
 	
 endif
 # EOF
