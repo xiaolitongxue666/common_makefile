@@ -1,46 +1,40 @@
-#---------------------------------------------------------
-# Define compilation platform commands
-#---------------------------------------------------------
-CC 			= $(PREFIX)gcc
-AR 			= $(PREFIX)ar
-STRIP 		= $(PREFIX)strip
+# Plantform compiler tools
+CC = $(PREFIX)gcc
+AR = $(PREFIX)ar
+STRIP = $(PREFIX)strip
 
-CP 			= cp
-RM 			= rm -f
-MAKE 		= make
-ECHO 		= echo
-MKDIR 		= mkdir
-RMDIR 		= rmdir
+# Shell command
+CP = cp
+RM = rm -f
+MAKE = make
+ECHO = echo
+MKDIR = mkdir
+RMDIR = rmdir
 
-ifeq (,$(filter objs,$(notdir $(shell pwd))))
-#---------------------------------------------------------
-# First create an intermediate directory (obj) in the current directory 
-# and enter the directory to compile, 
-# so that all process files will be generated in the 'objs' directory.
-#---------------------------------------------------------
+ifeq (,$(filter objs,$(notdir $(shell pwd)))) # if not in objs dir
 
-MK_ROOT	:= $(shell pwd)
+MK_ROOT := $(PWD)
 BUILD_DIR := $(MK_ROOT)/objs
 
 export MK_ROOT
 
-.PHONY:all clean help
+.PHONY:all static_lib clean help debug
 
 all:
 	$(MKDIR) -p $(BUILD_DIR)
-	rm -f $(BUILD_DIR)/*.*
-	+@$(MAKE) --quiet -C $(BUILD_DIR) -f $(MK_ROOT)/makefile all
+	rm -rf $(BUILD_DIR)/*.*
+	+@$(MAKE) --quiet -C $(BUILD_DIR) -f $(MK_ROOT)/Makefile all
 
 static_lib:
 	$(MKDIR) -p $(BUILD_DIR)
 	rm -f $(BUILD_DIR)/*.*
-	+@$(MAKE) --quiet -C $(BUILD_DIR) -f $(MK_ROOT)/makefile static_lib
+	+@$(MAKE) --quiet -C $(BUILD_DIR) -f $(MK_ROOT)/Makefile static_lib
 	
 
 share_lib:
 	$(MKDIR) -p $(BUILD_DIR)
 	rm -f $(BUILD_DIR)/*.*
-	+@$(MAKE) --quiet -C $(BUILD_DIR) -f $(MK_ROOT)/makefile share_lib
+	+@$(MAKE) --quiet -C $(BUILD_DIR) -f $(MK_ROOT)/Makefile share_lib
 
 
 clean:
@@ -52,54 +46,62 @@ help:
 	@echo "make static_lib to compiler a static lib"
 	@echo "make share_lib to compiler a share lib"
 
-else
-#---------------------------------------------------------
-# Generate code (obj)
-#---------------------------------------------------------
-TARGET_EXECUTABLE_FILE	= ExecutableFile
-TARGET_STATIC_LIB		= StaticLib.a
-TARGET_SHARE_LIB		= ShareLib.so
+debug:
+	@echo CC is [$(CC)]
+	@echo AR is [$(AR)]
+	@echo STRIP is [$(STRIP)]
+	@echo CP is [$(CP)]
+	@echo RM is [$(RM)]
+	@echo MAKE is [$(MAKE)]
+	@echo ECHO is [$(ECHO)]
+	@echo MKDIR is [$(MKDIR)]
+	@echo RMDIR is [$(RMDIR)]
+	@echo PWD v1 is [$(shell pwd)]
+	@echo PWD v2 is [$(PWD)]
+	@echo MK_ROOT is [$(MK_ROOT)]
+	@echo BUILD_DIR is [$(BUILD_DIR)]
+	
+else # else in objs dir
 
-INCLUDES	= -I $(MK_ROOT)
-INCLUDES	+= -I $(MK_ROOT)/B_function
-INCLUDES	+= -I $(MK_ROOT)/C_function
+# Global variables
+TARGET_EXECUTABLE_FILE = ExecutableFile
+TARGET_STATIC_LIB = StaticLib.a
+TARGET_SHARE_LIB = ShareLib.so
+
+INCLUDES = -I $(MK_ROOT)
+INCLUDES += -I $(MK_ROOT)/B_function
+INCLUDES += -I $(MK_ROOT)/C_function
 
 # Add you own lib header files
-# INCLUDES	+= -I$(MK_ROOT)/../../../../../workspace/include
-# INCLUDES	+= -I$(MK_ROOT)/../../../../../workspace/include_global
+# INCLUDES += -I$(MK_ROOT)/../../../../../workspace/include
+# INCLUDES += -I$(MK_ROOT)/../../../../../workspace/include_global
 
-CFLAGS		=
-CFLAGS		+=  -Wall
-CFLAGS		+=  -g
+CFLAGS =
+CFLAGS +=  -Wall
+CFLAGS +=  -g
 #Use C99
-#CFLAGS		+=  --std=gnu99
+#CFLAGS +=  --std=gnu99
 
-#CFLAGS		+=  -H
+#CFLAGS +=  -H
 
 # Add you lib files
-#LIBS		= -L $(MK_ROOT)/../workspace/lib
-LDFlAGS		=
+#LIBS = -L $(MK_ROOT)/../workspace/lib
+LDFlAGS =
 
-ARFLAGS		=
-CXXFLAGS	=
+ARFLAGS =
+CXXFLAGS =
 
-#---------------------------------------------------------
 # Input source code path
-#---------------------------------------------------------
-SRCDIR	= $(MK_ROOT)
-SRCDIR	+= $(MK_ROOT)/B_function
-SRCDIR	+= $(MK_ROOT)/C_function
+SRCDIR = $(MK_ROOT)
+SRCDIR += $(MK_ROOT)/B_function
+SRCDIR += $(MK_ROOT)/C_function
 
-#---------------------------------------------------------
 # Add a virtual path (can be stored in each module with mk)
-#---------------------------------------------------------
-VPATH	+= $(SRCDIR)
+VPATH += $(SRCDIR)
 
-#---------------------------------------------------------
 # Generate OBJ
-#---------------------------------------------------------
-SRCS	= $(notdir $(foreach temp, $(SRCDIR), $(wildcard $(temp)/*.c)))
-OBJS	= $(patsubst %.c, %.o, $(SRCS))
+SRCS = $(notdir $(foreach temp, $(SRCDIR), $(wildcard $(temp)/*.c)))
+OBJS = $(patsubst %.c, %.o, $(SRCS))
 
 .PHONY:all
 
@@ -158,5 +160,11 @@ $(TARGET_SHARE_LIB): $(OBJS)
 	@echo $@ Compiling $(notdir $<)... 
 	$(CC) -c -MMD $(INCLUDES) $(CFLAGS) $< -o $@
 	
+
 endif
-# EOF
+
+#EOF
+
+
+
+
