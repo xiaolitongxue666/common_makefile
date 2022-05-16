@@ -9,6 +9,7 @@ make clean
 make all
 ls ./objs
 
+
 #Build a static lib
 make clean
 make static_lib

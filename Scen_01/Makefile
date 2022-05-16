@@ -102,6 +102,7 @@ VPATH += $(SRCDIR)
 # Generate OBJ
 SRCS = $(notdir $(foreach temp, $(SRCDIR), $(wildcard $(temp)/*.c)))
 OBJS = $(patsubst %.c, %.o, $(SRCS))
+OBJS2 = $(filter-out C_function.o,$(OBJS))
 
 .PHONY:all
 
@@ -110,8 +111,9 @@ static_lib: $(TARGET_STATIC_LIB)
 all: $(TARGET_EXECUTABLE_FILE)
 
 $(TARGET_EXECUTABLE_FILE):$(OBJS)
-	$(ECHO)
+	$(ECHO) [$1]
 	$(ECHO) BUILD [$(TARGET_EXECUTABLE_FILE)] USE [$(OBJS)]
+	$(ECHO) BUILD [$(TARGET_EXECUTABLE_FILE)] USE [$(OBJS2)]
 	$(ECHO)
 	$(ECHO) LIBS [$(LIBS)]
 	$(ECHO)
