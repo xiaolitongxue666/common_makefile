@@ -6,7 +6,7 @@ make clean
 
 #Default
 #Build a exe
-make all
+make executable_file
 ls ./objs
 
 

@@ -18,12 +18,12 @@ BUILD_DIR := $(MK_ROOT)/objs
 
 export MK_ROOT
 
-.PHONY:all static_lib clean help debug
+.PHONY:executable_file static_lib clean help debug
 
-all:
+executable_file:
 	$(MKDIR) -p $(BUILD_DIR)
 	rm -rf $(BUILD_DIR)/*.*
-	+@$(MAKE) --quiet -C $(BUILD_DIR) -f $(MK_ROOT)/Makefile all
+	+@$(MAKE) --quiet -C $(BUILD_DIR) -f $(MK_ROOT)/Makefile executable_file
 
 static_lib:
 	$(MKDIR) -p $(BUILD_DIR)
@@ -42,7 +42,7 @@ clean:
 
 help:
 	@echo "Usage:"
-	@echo "make all to compiler a exec file (Default)"
+	@echo "make executable_file to compiler a exec file (Default)"
 	@echo "make static_lib to compiler a static lib"
 	@echo "make share_lib to compiler a share lib"
 
@@ -92,7 +92,12 @@ ARFLAGS =
 CXXFLAGS =
 
 # Input source code path
-SRCDIR = $(MK_ROOT)
+ifeq ($(MAKECMDGOALS), executable_file)
+	SRCDIR = $(MK_ROOT)
+else
+	SRCDIR =
+endif
+
 SRCDIR += $(MK_ROOT)/B_function
 SRCDIR += $(MK_ROOT)/C_function
 
@@ -104,16 +109,16 @@ SRCS = $(notdir $(foreach temp, $(SRCDIR), $(wildcard $(temp)/*.c)))
 OBJS = $(patsubst %.c, %.o, $(SRCS))
 OBJS2 = $(filter-out C_function.o,$(OBJS))
 
-.PHONY:all
+.PHONY:executable_file
 
 static_lib: $(TARGET_STATIC_LIB)
 
-all: $(TARGET_EXECUTABLE_FILE)
+executable_file: $(TARGET_EXECUTABLE_FILE)
 
 $(TARGET_EXECUTABLE_FILE):$(OBJS)
-	$(ECHO) [$1]
+	$(ECHO) make [$(MAKECMDGOALS)]
+	$(ECHO) SRCDIR [$(SRCDIR)]
 	$(ECHO) BUILD [$(TARGET_EXECUTABLE_FILE)] USE [$(OBJS)]
-	$(ECHO) BUILD [$(TARGET_EXECUTABLE_FILE)] USE [$(OBJS2)]
 	$(ECHO)
 	$(ECHO) LIBS [$(LIBS)]
 	$(ECHO)
@@ -126,7 +131,8 @@ $(TARGET_EXECUTABLE_FILE):$(OBJS)
 	$(CC) $^ -o $@ $(LIBS) $(LDFLAGS)
 
 $(TARGET_STATIC_LIB): $(OBJS)
-	$(ECHO)
+	$(ECHO) make [$(MAKECMDGOALS)]
+	$(ECHO) SRCDIR [$(SRCDIR)]
 	$(ECHO) BUILD [$(TARGET_STATIC_LIB)] USE [$(OBJS)]
 	$(ECHO)
 	$(ECHO) LIBS [$(LIBS)]
