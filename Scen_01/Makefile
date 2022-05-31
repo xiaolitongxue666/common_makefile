@@ -38,7 +38,7 @@ share_lib:
 
 
 clean:
-	rm -f $(BUILD_DIR)/*.*
+	rm -f $(BUILD_DIR)/*
 
 help:
 	@echo "Usage:"
