@@ -1,23 +1,29 @@
-## Scen 01 
+# Scenes
+## 01 Simple make a exec file or static lib or share lib
 
-**Input** :	
+**Input** :
 
-- *.c
-- *.h
+*.c *.h
 
 **Output** :	
 
-- *.elf
+*.elf *.a *.so
 
-  or
+### Make a module exec file
 
-- *.a
+```shell
+cd Scen_01/
 
-  or
+# Clean
+make clean
 
-- *.so
+# Build
+make executable_file
 
-Simple make a exec fiel or static lib or share lib
+# Run
+./obj/executable_file
+```
+
 
 
 
