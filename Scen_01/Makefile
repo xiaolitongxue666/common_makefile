@@ -84,9 +84,14 @@ CFLAGS +=  -g
 
 #CFLAGS +=  -H
 
-# Add you lib files
+# Libs dirs
 #LIBS = -L $(MK_ROOT)/../workspace/lib
+
+# Libs flags
 LDFlAGS =
+LDFLAGS	+= -Wl,--start-group
+#LDFLAGS += -lmxml
+LDFLAGS	+= -Wl,--end-group
 
 ARFLAGS =
 CXXFLAGS =
