@@ -10,6 +10,7 @@ MAKE = make
 ECHO = echo
 MKDIR = mkdir
 RMDIR = rmdir
+UNAME := $(shell uname)
 
 ifeq (,$(filter objs,$(notdir $(shell pwd)))) # if not in objs dir
 
@@ -101,6 +102,17 @@ ifeq ($(MAKECMDGOALS), executable_file)
 	SRCDIR = $(MK_ROOT)
 else
 	SRCDIR =
+endif
+
+ifeq ($(UNAME),Linux)
+	$(ECHO) "Linux platform"
+	CC=gcc
+else ifeq ($(UNAME),macos)
+	$(ECHO) "Macos platform"
+	CC=gcc-11
+else
+	$(ECHO) "Windows platform"
+	CC=gcc
 endif
 
 SRCDIR += $(MK_ROOT)/B_function
