@@ -24,6 +24,15 @@ make executable_file
 ./obj/executable_file
 ```
 
+# Dependent
+```
+-include *.d # Dependent
+%.o : %.c
+	$(ECHO) $@ Compiling $(notdir $<)...
+	$(CC) -c $(INCLUDES) $(CFLAGS) $< -MMD -pg -o $@ # Use -MMD 
+else
+
+```
 
 
 
