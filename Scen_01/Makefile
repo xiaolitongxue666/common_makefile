@@ -105,13 +105,13 @@ else
 endif
 
 ifeq ($(UNAME),Linux)
-	$(ECHO) "Linux platform"
+	# $(ECHO) "Linux platform"
 	CC=gcc
 else ifeq ($(UNAME),macos)
-	$(ECHO) "Macos platform"
+	# $(ECHO) "Macos platform"
 	CC=gcc-11
 else
-	$(ECHO) "Windows platform"
+	# $(ECHO) "Windows platform"
 	CC=gcc
 endif
 
