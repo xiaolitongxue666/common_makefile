@@ -3,6 +3,9 @@ CC = $(PREFIX)gcc
 AR = $(PREFIX)ar
 STRIP = $(PREFIX)strip
 
+# Set make shell
+SHELL=/bin/bash
+
 # Shell command
 CP = cp
 RM = rm -f
@@ -14,7 +17,7 @@ UNAME := $(shell uname)
 
 ifeq (,$(filter objs,$(notdir $(shell pwd)))) # if not in objs dir
 
-MK_ROOT := $(PWD)
+MK_ROOT := $(shell pwd)
 BUILD_DIR := $(MK_ROOT)/objs
 
 export MK_ROOT
@@ -24,7 +27,7 @@ export MK_ROOT
 executable_file:
 	$(MKDIR) -p $(BUILD_DIR)
 	rm -rf $(BUILD_DIR)/*.*
-	+@$(MAKE) --quiet -C $(BUILD_DIR) -f $(MK_ROOT)/Makefile executable_file
+	$(MAKE) -C $(BUILD_DIR) -f $(MK_ROOT)/Makefile executable_file
 
 static_lib:
 	$(MKDIR) -p $(BUILD_DIR)
@@ -55,10 +58,13 @@ debug:
 	@echo RM is [$(RM)]
 	@echo MAKE is [$(MAKE)]
 	@echo ECHO is [$(ECHO)]
+	@echo UNAME is [$(UNAME)]
 	@echo MKDIR is [$(MKDIR)]
 	@echo RMDIR is [$(RMDIR)]
 	@echo PWD v1 is [$(shell pwd)]
 	@echo PWD v2 is [$(PWD)]
+	@echo PWD v3 is [`pwd`]
+	@echo PWD v4 is [$(pwd)]
 	@echo MK_ROOT is [$(MK_ROOT)]
 	@echo BUILD_DIR is [$(BUILD_DIR)]
 	
