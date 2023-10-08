@@ -1,5 +1,5 @@
 # Scenes
-## 01 Simple make a exec file or static lib or share lib
+## 01 Simple make exec file or static lib or share lib
 
 **Input** :
 
