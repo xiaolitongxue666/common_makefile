@@ -144,3 +144,9 @@ all:
 clean:
 	rm -rf subdir
 ```
+
+```shell
+# Add a virtual path (can be stored in each module with mk)
+VPATH += $(SRCDIR)
+```
+
