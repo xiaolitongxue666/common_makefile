@@ -21,7 +21,7 @@ INC_DIRS := $(shell find $(SRC_DIRS) -type d)
 # Add a prefix to INC_DIRS. So moduleA would become -ImoduleA. GCC understands this -I flag
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
-# The -MMD and -MP flags together generate Makefiles for us!
+# The -MMD and -MP flags together generate a .d file next to the .o file for us!
 # These files will have .d instead of .o as the output.
 CPPFLAGS := $(INC_FLAGS) -MMD -MP
 
@@ -40,9 +40,16 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
 
-.PHONY: clean
+.PHONY: clean print
 clean:
 	rm -r $(BUILD_DIR)
+
+print:
+	@echo SRCS [$(SRCS)]
+	@echo OBJS [$(OBJS)]
+	@echo DEPS [$(DEPS)]
+	@echo INC_DIRS [$(INC_DIRS)]
+	@echo CPPFLAGS [$(CPPFLAGS)]
 
 # Include the .d makefiles. The - at the front suppresses the errors of missing
 # Makefiles. Initially, all the .d files will be missing, and we don't want those
