@@ -1,0 +1,17 @@
+# version: "3.8"
+services:
+  c_and_c_plus_dev_env:
+    image: c_and_c_plus_dev_env:latest
+    container_name: c_and_c_plus_dev_env
+    tty: true
+    #    ports:
+    #      - "9999:9999"
+    #    network_mode: "host"
+    volumes:
+      - ./:/c_and_c_plus_dev_env/
+#    extra_hosts:
+#      - "host.docker.internal:172.27.0.1"
+
+# docker-compose up -d --force-recreate
+# docker-compose exec c_and_c_plus_dev_env /bin/bash
+# docker-compose down
