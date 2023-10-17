@@ -22,7 +22,7 @@ BUILD_DIR := $(MK_ROOT)/objs
 
 export MK_ROOT
 
-.PHONY:executable_file static_lib clean help debug
+.PHONY:executable_file static_lib share_lib clean help debug
 
 executable_file:
 	$(MKDIR) -p $(BUILD_DIR)
@@ -132,11 +132,13 @@ SRCS = $(notdir $(foreach temp, $(SRCDIR), $(wildcard $(temp)/*.c)))
 OBJS = $(patsubst %.c, %.o, $(SRCS))
 OBJS2 = $(filter-out C_function.o,$(OBJS))
 
-.PHONY:executable_file
+.PHONY:executable_file static_lib share_lib clean help debug
+
+executable_file: $(TARGET_EXECUTABLE_FILE)
 
 static_lib: $(TARGET_STATIC_LIB)
 
-executable_file: $(TARGET_EXECUTABLE_FILE)
+share_lib: $(TARGET_SHARE_LIB)
 
 $(TARGET_EXECUTABLE_FILE):$(OBJS)
 	$(ECHO) make [$(MAKECMDGOALS)]
@@ -185,6 +187,7 @@ $(TARGET_SHARE_LIB): $(OBJS)
 	$(ECHO)
 	$(ECHO) LDFLAGS [$(LDFLAGS)]
 	@echo Build Share Library $@ Use $(OBJS)
+	$(CC) -shared -fPIC -o $@ $^
 
 -include *.d 
 %.o : %.c 
