@@ -1,5 +1,13 @@
 # Thanks to Job Vranish (https://spin.atomicobject.com/2016/08/26/makefile-c-projects/)
-TARGET_EXEC := final_program
+
+# Plantform compiler tools
+CC = $(PREFIX)gcc
+AR = $(PREFIX)ar
+STRIP = $(PREFIX)strip
+
+TARGET_EXECUTABLE_FILE := ExecutableFile
+TARGET_STATIC_LIB := StaticLib.a
+TARGET_SHARE_LIB := ShareLib.so
 
 BUILD_DIR := ./build
 SRC_DIRS := ./src
@@ -25,9 +33,25 @@ INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 # These files will have .d instead of .o as the output.
 CPPFLAGS := $(INC_FLAGS) -MMD -MP
 
-# The final build step.
-$(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
+.PHONY:executable_file static_lib share_lib clean help print
+
+executable_file: $(BUILD_DIR)/$(TARGET_EXECUTABLE_FILE)
+
+static_lib: $(BUILD_DIR)/$(TARGET_STATIC_LIB)
+
+share_lib: $(BUILD_DIR)/$(TARGET_SHARE_LIB)
+
+# The executable file build step.
+$(BUILD_DIR)/$(TARGET_EXECUTABLE_FILE): $(OBJS)
 	$(CXX) $(OBJS) -o $@ $(LDFLAGS)
+
+# The static lib build step.
+$(BUILD_DIR)/$(TARGET_STATIC_LIB): $(OBJS)
+	$(AR) rcs $@ $^
+
+# The static lib build step.
+$(BUILD_DIR)/$(TARGET_SHARE_LIB): $(OBJS)
+	$(CXX) -shared -fPIC -o $@ $^
 
 # Build step for C source
 $(BUILD_DIR)/%.c.o: %.c
@@ -39,8 +63,6 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 	mkdir -p $(dir $@)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
-
-.PHONY: clean print
 clean:
 	rm -r $(BUILD_DIR)
 
